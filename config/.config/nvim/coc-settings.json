@@ -1,0 +1,27 @@
+// Il faut installer: coc-json, mads--hartmann/bash-language-server, coc-python, ccls, coc-phpls
+// coc-html, coc-css, coc-tsserver, coc-emmet, coc-sql
+
+{
+	"coc.preferences.hoverTarget": "float",
+	"python.jediEnabled": false,
+	"languageserver": {
+		"bash": {
+			"command": "bash-language-server",
+			"args": ["start"],
+			"filetypes": ["sh"],
+			"ignoredRootPaths": ["~"]
+		},
+		"ccls": {
+			"command": "ccls",
+			"filetypes": ["c","cpp", "objc", "objcpp"],
+			"rootPatterns": [".ccls-root", "compile_commands.json", ".vim/", ".git/", ".hg/"],
+			"initializationOptions": {
+				"cache": {
+					"directory": "/tmp/ccls"
+				}
+			}
+		}
+  },
+  "coc.preferences.extensionUpdateCheck": "daily"
+}
+

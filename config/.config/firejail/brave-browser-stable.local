@@ -1,0 +1,8 @@
+# Firejail profile alias for brave (release channel)
+
+whitelist ${HOME}/Public
+whitelist ${DOWNLOADS}
+# ignore nodbus
+
+# Redirect
+include brave.profile

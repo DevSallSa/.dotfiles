@@ -1,0 +1,102 @@
+include globals.local
+
+# noexec ${HOME} breaks DRM binaries.
+?BROWSER_ALLOW_DRM: ignore noexec ${HOME}
+
+# Add the next line to your firefox-common.local to allow access to common programs/addons/plugins.
+#include firefox-common-addons.profile
+
+# Brave.profile
+# noexec /tmp is included in chromium-common.profile and breaks Brave
+ignore noexec /tmp
+# TOR is installed in ${HOME}.
+# NOTE: chromium-common.profile enables apparmor. To keep that intact
+# you will need to uncomment the 'brave + tor' rule in /etc/apparmor.d/local/firejail-default.
+# Alternatively you can add 'ignore apparmor' to your brave.local.
+ignore noexec ${HOME}
+
+noblacklist ${HOME}/.cache/BraveSoftware
+noblacklist ${HOME}/.config/BraveSoftware
+noblacklist ${HOME}/.config/brave
+noblacklist ${HOME}/.config/brave-flags.conf
+# brave uses gpg for built-in password manager
+noblacklist ${HOME}/.gnupg
+
+mkdir ${HOME}/.cache/BraveSoftware
+mkdir ${HOME}/.config/BraveSoftware
+mkdir ${HOME}/.config/brave
+whitelist ${HOME}/.cache/BraveSoftware
+whitelist ${HOME}/.config/BraveSoftware
+whitelist ${HOME}/.config/brave
+whitelist ${HOME}/.config/brave-flags.conf
+whitelist ${HOME}/.gnupg
+
+# Brave sandbox needs read access to /proc/config.gz
+noblacklist /proc/config.gz
+
+# chromium.profile
+noblacklist ${HOME}/.cache/chromium
+noblacklist ${HOME}/.config/chromium
+noblacklist ${HOME}/.config/chromium-flags.conf
+
+mkdir ${HOME}/.cache/chromium
+mkdir ${HOME}/.config/chromium
+whitelist ${HOME}/.cache/chromium
+whitelist ${HOME}/.config/chromium
+whitelist ${HOME}/.config/chromium-flags.conf
+whitelist /usr/share/chromium
+whitelist /usr/share/mozilla/extensions
+
+# chromium-common.profile
+noblacklist ${HOME}/.pki
+noblacklist ${HOME}/.local/share/pki
+
+include disable-common.inc
+include disable-devel.inc
+include disable-exec.inc
+include disable-interpreters.inc
+include disable-programs.inc
+include disable-xdg.inc # BY ME
+
+mkdir ${HOME}/.pki
+mkdir ${HOME}/.local/share/pki
+whitelist ${DOWNLOADS}
+whitelist ${HOME}/.pki
+whitelist ${HOME}/.local/share/pki
+include whitelist-common.inc
+include whitelist-runuser-common.inc
+include whitelist-usr-share-common.inc  # BY ME
+include whitelist-var-common.inc
+
+apparmor
+caps.drop all
+netfilter
+nodvd
+nogroups
+noinput
+nonewprivs
+# noroot breaks GTK_USE_PORTAL=1 usage, see https://github.com/netblue30/firejail/issues/2506.
+noroot
+notv
+?BROWSER_DISABLE_U2F: nou2f
+protocol unix,inet,inet6,netlink
+# The below seccomp configuration still permits chroot syscall. See https://github.com/netblue30/firejail/issues/2506 for possible workarounds.
+seccomp !chroot
+shell none
+# Disable tracelog, it breaks or causes major issues with many firefox based browsers, see https://github.com/netblue30/firejail/issues/1930.
+#tracelog
+
+disable-mnt
+?BROWSER_DISABLE_U2F: private-dev
+# private-etc below works fine on most distributions. There are some problems on CentOS.
+# Add it to your firefox-common.local if you want to enable it.
+#private-etc alternatives,asound.conf,ca-certificates,crypto-policies,dconf,fonts,group,gtk-2.0,gtk-3.0,hostname,hosts,ld.so.cache,ld.so.conf,ld.so.conf.d,ld.so.preload,localtime,machine-id,mailcap,mime.types,nsswitch.conf,pango,passwd,pki,pulse,resolv.conf,selinux,ssl,X11,xdg
+private-cache  # BY ME
+
+# 'dbus-user none' breaks various desktop integration features like global menus, native notifications,
+# Gnome connector, KDE connect and power management on KDE Plasma.
+dbus-user none
+dbus-system none
+
+# The file dialog needs to work without d-bus.
+?HAS_NODBUS: env NO_CHROME_KDE_FILE_DIALOG=1  # BY ME

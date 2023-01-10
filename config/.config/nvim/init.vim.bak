@@ -1,0 +1,139 @@
+"================== VIM-PLUG section ==============================
+"
+" on: charge le plugin lors de la 1ere invocation de la commande. c'est du JSON
+" for: charge quand le fichier est ouvert
+" do: effectue la commande apres l'installation ou la mise a jour du plugin
+" frozen: empêche la mise à jour du plugin
+" branch: spécifie la branche du plugin à pull
+
+
+if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
+  silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+
+" Plugins will be downloaded under the specified directory.
+call plug#begin('~/.local/share/nvim/bundle')
+
+" Plugin manager for (neo)vim
+Plug 'junegunn/vim-plug'
+
+" Status bar for (neo)vim
+Plug 'itchyny/lightline.vim'
+
+" sets of simplify lua function
+Plug 'nvim-lua/plenary.nvim'
+
+" Fuzzy finder and navigations
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+Plug 'nvim-telescope/telescope-ui-select.nvim'
+
+" Lightline plugin for getting the name of the current git branch.
+Plug 'itchyny/vim-gitbranch'
+
+" Show commit and its author in line
+Plug 'tveskag/nvim-blame-line'
+
+" Add icons support to (neo)vim
+Plug 'ryanoasis/vim-devicons'
+
+" Source code structure viewer
+" Plug 'majutsushi/tagbar'
+" Is it necessary ? YES !!
+
+" Automatic closing of quotes, brackets, etc...
+" Plug 'Raimondi/delimitMate'
+
+" Autocloing and renaming html tag
+Plug 'windwp/nvim-ts-autotag'
+
+" Allow to surround texts with tags, brackets, etc...
+Plug 'tpope/vim-surround'
+
+" Markdown previewe
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
+
+" Emmet snippets
+" Plug 'mattn/emmet-vim'
+
+" Show modification inside git project
+Plug 'airblade/vim-gitgutter'
+
+" Show file's git status in NERDtree
+Plug 'Xuyuanp/nerdtree-git-plugin'
+
+" Show css color
+Plug 'ap/vim-css-color'
+
+" Raml support for (neo)vim
+Plug 'IN3D/vim-raml'
+
+" Treesitter for syntax coloring
+Plug 'nvim-treesitter/nvim-treesitter', { 'do': 'TSUpdate' }
+
+" Quick config for native neovim LSP
+Plug 'neovim/nvim-lspconfig'
+Plug 'kosayoda/nvim-lightbulb'
+
+" Java LSP
+Plug 'mfussenegger/nvim-jdtls'
+
+" lsp progression UI
+Plug 'j-hui/fidget.nvim'
+
+" Autocompletion plugin
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+
+" Tabnine AI plugin for nvim-cmp
+Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
+
+" Adding Icons to nvim-cmp
+Plug 'onsails/lspkind-nvim'
+
+" Using snippets
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'quangnguyen30192/cmp-nvim-ultisnips'
+
+" Code formatter
+Plug 'sbdchd/neoformat'
+
+" Colorschemes
+Plug 'haishanh/night-owl.vim'
+
+" Give a startup menu when opening (neo)vim
+" without argument
+Plug 'mhinz/vim-startify'
+
+" Displaying a popup of possible vim keybindings
+" in normal mode. The popup appears after 1s
+Plug 'folke/which-key.nvim'
+
+" Comment lines
+Plug 'tomtom/tcomment_vim'
+
+" Floating terminal
+Plug 'voldikss/vim-floaterm'
+
+" Code scratchpad (RunJS like)
+Plug 'metakirby5/codi.vim'
+
+" Repeat plugin commands
+Plug 'tpope/vim-repeat'
+
+" Vim be good game
+Plug 'ThePrimeagen/vim-be-good'
+
+"
+Plug 'dstein64/vim-startuptime'
+
+" List ends here. Plugins become visible to neovim after this call
+call plug#end()
+
+lua require("devsallsa")

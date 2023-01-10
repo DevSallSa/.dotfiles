@@ -1,0 +1,504 @@
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"
+"               ██╗   ██╗██╗███╗   ███╗██████╗  ██████╗
+"               ██║   ██║██║████╗ ████║██╔══██╗██╔════╝
+"               ██║   ██║██║██╔████╔██║██████╔╝██║
+"               ╚██╗ ██╔╝██║██║╚██╔╝██║██╔══██╗██║
+"                ╚████╔╝ ██║██║ ╚═╝ ██║██║  ██║╚██████╗
+"                 ╚═══╝  ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝
+"
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+
+" EDITOR SETTINGS -------------------------------------------------------- {{{
+
+" Disable compatibility with vi which can cause issues
+set nocompatible
+set number
+set encoding=utf-8
+
+" Remove bomb character in EOF
+set nobomb
+
+" Enable type file detection
+filetype on
+filetype indent on
+filetype plugin on
+
+" Turn on syntax highlighting
+syntax on
+
+" Enable vim folding
+set foldmethod=marker
+
+" Replace tabs with 2 whitespaces; more info on :help on the following
+
+" Set tab width to 4 columns
+set tabstop=4
+set softtabstop=0
+
+" Use space characters instead of tabs
+set expandtab
+
+" Set shift width to 2 spaces
+set shiftwidth=2
+set smarttab
+
+" Highlight incrementally matching character when searching
+set incsearch
+
+set completeopt=menu,menuone,noselect
+
+" }}}
+
+" PLUGINS --------------------------------------------------------------- {{{
+
+
+" on: charge le plugin lors de la 1ere invocation de la commande. c'est du JSON
+" for: charge quand le fichier est ouvert
+" do: effectue la commande apres l'installation ou la mise a jour du plugin
+" frozen: empêche la mise à jour du plugin
+" branch: spécifie la branche du plugin à pull
+
+
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+
+" Plugins will be downloaded under the specified directory.
+call plug#begin('~/.vim/plugged')
+
+" Plugin manager for (neo)vim
+Plug 'junegunn/vim-plug'
+
+" Project tree explorer
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+
+" Show modification inside git project
+Plug 'airblade/vim-gitgutter'
+
+" Show file's git status in NERDtree
+Plug 'Xuyuanp/nerdtree-git-plugin'
+
+" Give a startup menu when opening (neo)vim
+" without argument
+Plug 'mhinz/vim-startify'
+
+" Comment lines
+Plug 'tomtom/tcomment_vim'
+
+" Code scratchpad (RunJS like)
+Plug 'metakirby5/codi.vim'
+
+Plug 'voldikss/vim-floaterm'
+
+" Status bar for (neo)vim
+Plug 'itchyny/lightline.vim'
+
+" Lightline plugin for getting the name of the current git branch.
+Plug 'itchyny/vim-gitbranch'
+
+" Add icons support to (neo)vim
+Plug 'ryanoasis/vim-devicons'
+
+" Automatic closing of quotes, brackets, etc...
+Plug 'Raimondi/delimitMate'
+
+" Allow to surround texts with tags, brackets, etc...
+Plug 'tpope/vim-surround'
+
+" Markdown previewe
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
+
+" Emmet snippets
+Plug 'mattn/emmet-vim'
+
+" Show modification inside git project
+Plug 'airblade/vim-gitgutter'
+
+" Show css color
+Plug 'ap/vim-css-color'
+
+" Raml support for (neo)vim
+Plug 'IN3D/vim-raml'
+
+" Using snippets
+Plug 'SirVer/ultisnips'
+
+" Code formatter
+Plug 'sbdchd/neoformat'
+
+" Colorschemes
+Plug 'haishanh/night-owl.vim'
+
+" Repeat plugin commands
+Plug 'tpope/vim-repeat'
+
+" List ends here. Plugins become visible to neovim after this call
+call plug#end()
+
+
+" }}}
+
+" COLORSCHEME -------------------------------------------------------------- {{{
+
+if (has("termguicolors"))
+ set termguicolors
+endif
+
+"enable theme
+syntax enable
+set background=dark
+set t_Co=256
+
+colorscheme night-owl
+
+" }}}
+
+" AUTO COMMANDS ------------------------------------------------------------ {{{
+
+" Autocommand for deleting trailing spaces
+" and formatting file
+augroup format_file
+  autocmd!
+  autocmd BufWritePre * undojoin | Neoformat
+  autocmd BufWritePre * %s/\s\+$//e
+augroup END
+
+" }}}
+
+" KEYMAPS --------------------------------------------------------------- {{{
+
+" Vim editor keybindings
+let mapleader = " "
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
+nnoremap <F8> :NERDTreeToggle<CR>
+nnoremap <C-Left> :tabprevious<CR>
+nnoremap <C-Right> :tabnext<CR>
+
+" Remove highlight after a search
+nnoremap <C-l> :let @/ = ""<CR>
+
+" For floating terminal
+tnoremap <silent> <F11>         <C-\><C-n>:FloatermNext<CR>
+nnoremap <silent> <F12>         :FloatermToggle<CR>
+tnoremap <silent> <F12>         <C-\><C-n>:FloatermToggle<CR>
+nnoremap <silent> <leader>tt    :FloatermNew<CR>
+nnoremap <silent> <leader>tg    :FloatermNew ghci<CR>
+nnoremap <silent> <leader>tk    <C-\><C-n>:FloatermKill<CR>
+tnoremap <Esc>                  <C-\><C-n>
+
+" Keybinding pour lancer Codi dans un terminal vim.
+nnoremap <silent> <leader>tj    :FloatermNew vim -c "let g:startify_disable_at_vimenter = 1 \| Codi javascript"<CR>
+
+" Git gutter
+nmap     ]h                     :call GitGutterNextHunkCycle()<CR>
+nmap     <leader>hp             <Plug>(GitGutterPreviewHunk)
+
+" }}}
+
+" FLOATERM SETTINGS ------------------------------------------------------ {{{
+
+let g:floaterm_width = 0.8
+let g:floaterm_height = 0.8
+
+let g:floaterm_gitcommit='floaterm'
+let g:floaterm_autoinsert=1
+let g:floaterm_wintitle=0
+let g:floaterm_autoclose=1
+
+" }}}
+
+" GITGUTTER SETTINGS ------------------------------------------------------ {{{
+
+" Function to cycle through line updated
+"
+function! GitGutterNextHunkCycle()
+  let line = line('.')
+  silent! GitGutterNextHunk
+  if line('.') == line
+    1
+    GitGutterNextHunk
+  endif
+  silent! call repeat#set("]h")
+endfunction
+
+" }}}
+
+" CODI SETTINGS ----------------------------------------------------------- {{{
+
+" Need to add the node_modules path in order to load packages
+" But you will to use the old import syntax (require)
+" because the actual node REPL can't use the ES6 import syntax
+let g:codi#command_prefix = [ 'env', 'NODE_PATH=node_modules']
+
+" }}}
+
+" LIGHTLINE SETTINGS ------------------------------------------------------- {{{
+
+set laststatus=2
+
+if !has('gui_running')
+  set t_Co=256
+endif
+
+let g:lightline = {
+      \ 'colorscheme': 'nightowl'
+      \ }
+
+let g:lightline.component = {
+	\ 'vim_logo' : "\ue7c5"
+	\}
+
+let g:lightline.component_function = {
+      \   'filetype': 'GiveFileType',
+      \   'fileformat': 'GiveFileFormat',
+      \	  'gitbranch': 'GiveGitBranch'
+      \}
+
+let g:lightline.active = {
+            \ 'left': [ [ 'mode', 'paste' ],
+            \           [ 'readonly', 'filename', 'fileformat', 'filetype' ] ],
+	    \ 'right': [ [ 'lineinfo' ],
+	    \ 		[ 'percent' ],
+	    \ 		[ 'fileencoding' ] ]
+	    \ }
+
+let g:lightline.tabline = {
+            \ 'left': [ [ 'vim_logo', 'tabs' ] ],
+            \ 'right': [ [ 'gitbranch' ],
+            \ [ 'gitstatus' ] ]
+\ }
+
+let g:lightline.separator = { 'left': "\ue0b0", 'right': "\ue0b2" }
+let g:lightline.subseparator = { 'left': "\ue0b1", 'right': "\ue0b3" }
+let g:lightline.tabline_separator = { 'left': "\ue0b0", 'right': "\ue0b2" }
+let g:lightline.tabline_subseparator = { 'left': "\ue0b1", 'right': "\ue0b3" }
+
+function! GiveFileType()
+ return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype . ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
+endfunction
+
+function! GiveGitBranch()
+  let branchName = gitbranch#name()
+  return strlen(branchName) != 0 ? " " . branchName : ''
+endfunction
+
+function! GiveFileFormat()
+  return winwidth(0) > 70 ? (&fileformat . ' ' . WebDevIconsGetFileFormatSymbol()) : ''
+endfunction
+
+" }}}
+
+" MARKDOWN SETTINGS -------------------------------------------------------- {{{
+
+" set to 1, nvim will open the preview window after entering the markdown buffer
+" default: 0
+let g:mkdp_auto_start = 0
+
+" set to 1, the nvim will auto close current preview window when change
+" from markdown buffer to another buffer
+" default: 1
+let g:mkdp_auto_close = 1
+
+" set to 1, the vim will refresh markdown when save the buffer or
+" leave from insert mode, default 0 is auto refresh markdown as you edit or
+" move the cursor
+" default: 0
+let g:mkdp_refresh_slow = 0
+
+" set to 1, the MarkdownPreview command can be use for all files,
+" by default it can be use in markdown file
+" default: 0
+let g:mkdp_command_for_global = 0
+
+" set to 1, preview server available to others in your network
+" by default, the server listens on localhost (127.0.0.1)
+" default: 0
+let g:mkdp_open_to_the_world = 0
+
+" use custom IP to open preview page
+" useful when you work in remote vim and preview on local browser
+" more detail see: https://github.com/iamcco/markdown-preview.nvim/pull/9
+" default empty
+let g:mkdp_open_ip = ''
+
+" specify browser to open preview page
+" default: ''
+let g:mkdp_browser = ''
+
+" set to 1, echo preview page url in command line when open preview page
+" default is 0
+let g:mkdp_echo_preview_url = 0
+
+" a custom vim function name to open preview page
+" this function will receive url as param
+" default is empty
+let g:mkdp_browserfunc = ''
+
+" options for markdown render
+" mkit: markdown-it options for render
+" katex: katex options for math
+" uml: markdown-it-plantuml options
+" maid: mermaid options
+" disable_sync_scroll: if disable sync scroll, default 0
+" sync_scroll_type: 'middle', 'top' or 'relative', default value is 'middle'
+"   middle: mean the cursor position alway show at the middle of the preview page
+"   top: mean the vim top viewport alway show at the top of the preview page
+"   relative: mean the cursor position alway show at the relative positon of the preview page
+" hide_yaml_meta: if hide yaml metadata, default is 1
+" sequence_diagrams: js-sequence-diagrams options
+let g:mkdp_preview_options = {
+    \ 'mkit': {},
+    \ 'katex': {},
+    \ 'uml': {},
+    \ 'maid': {},
+    \ 'disable_sync_scroll': 0,
+    \ 'sync_scroll_type': 'middle',
+    \ 'hide_yaml_meta': 1,
+    \ 'sequence_diagrams': {}
+    \ }
+
+" use a custom markdown style must be absolute path
+let g:mkdp_markdown_css = ''
+
+" use a custom highlight style must absolute path
+let g:mkdp_highlight_css = ''
+
+" use a custom port to start server or random for empty
+let g:mkdp_port = ''
+
+" preview page title
+" ${name} will be replace with the file name
+let g:mkdp_page_title = '「${name}」'
+
+" }}}
+
+" NEOFORMAT SETTINGS ------------------------------------------------------- {{{
+
+" In order to work correctly, you need to install the required formatter.
+" Neoformat is only a formatting runner
+
+
+" C/C++ code formatter
+let g:neoformat_c_clangformat = {
+  \ 'exe': 'clang-format',
+  \ 'args': ['-style=llvm'],
+  \ 'replace': 1,
+  \ 'stdin': 1,
+  \ 'no_append': 1
+  \ }
+
+
+" \ 'args': ['--write', '.'],
+" Prettier formatter
+" let g:neoformat_html_prettier = {
+"   \ 'exe': 'prettier',
+"   \ 'args': ['--stdin-filepath', '"%:p"'],
+"   \ 'stdin': 1,
+"   \ 'replace': 1,
+"   \ 'try_node_exe': 1
+"   \ }
+"
+" let g:neoformat_css_prettier = {
+"   \ 'exe': 'prettier',
+"   \ 'args': ['--write', '.'],
+"   \ 'replace': 1,
+"   \ 'try_node_exe': 1
+"   \ }
+"
+" let g:neoformat_scss_prettier = {
+"   \ 'exe': 'prettier',
+"   \ 'args': ['--write', '.'],
+"   \ 'replace': 1,
+"   \ 'try_node_exe': 1
+"   \ }
+"
+" let g:neoformat_javascript_prettier = {
+"   \ 'exe': 'prettier',
+"   \ 'args': ['--stdin-filepath', '"%:p"'],
+"   \ 'replace': 1,
+"   \ 'try_node_exe': 1
+"   \ }
+"
+" let g:neoformat_typescript_prettier = {
+"   \ 'exe': 'prettier',
+"   \ 'args': ['--write', '.'],
+"   \ 'replace': 1,
+"   \ 'try_node_exe': 1
+"   \ }
+"
+" let g:neoformat_json_prettier = {
+"   \ 'exe': 'prettier',
+"   \ 'args': ['--write', '.'],
+"   \ 'replace': 1,
+"   \ 'try_node_exe': 1
+"   \ }
+"
+" let g:neoformat_markdown_prettier = {
+"   \ 'exe': 'prettier',
+"   \ 'args': ['--write', '.'],
+"   \ 'replace': 1,
+"   \ 'try_node_exe': 1
+"   \ }
+
+" Python formatter
+let g:neoformat_python_black = {
+   \ 'exe': 'black',
+   \ 'args': ['-l 79'],
+   \ 'replace': 1,
+   \ }
+
+let g:neoformat_python_autopep8 = {
+  \ 'exe': 'autopep8',
+  \ 'args': ['-a', '-a', '-i', '--max-line-length 79'],
+  \ 'replace': 1,
+  \ }
+
+
+let g:neoformat_lua_stylua = {
+  \ 'exe': 'stylua',
+  \ 'args': ['--column-width 80', '--line-endings Unix', '--indent-type Spaces', '--search-parent-directories', '--stdin-filepath', '"%:p"', '--', '-'],
+  \ 'stdin': 1,
+  \ }
+
+
+let g:neoformat_enabled_lua = ['stylua']
+let g:neoformat_enabled_cpp = ['clangformat']
+let g:neoformat_enabled_c = ['clangformat']
+let g:neoformat_enabled_python = ['black']
+" let g:neoformat_enabled_haskell = ['ormolu']
+let g:neoformat_enabled_haskell = ['']
+let g:neoformat_enabled_html = ['prettier']
+let g:neoformat_enabled_css = ['prettier']
+let g:neoformat_enabled_scss = ['prettier']
+let g:neoformat_enabled_javascript = ['prettier']
+let g:neoformat_enabled_typescript = ['prettier']
+let g:neoformat_enabled_json = ['prettier']
+let g:neoformat_enabled_markdown = ['prettier']
+
+" Prettier config (HTML, CSS, TS, JS, XML)
+let g:neoformat_try_node_exe = 1
+
+" }}}
+
+" NERDTree SETTINGS -------------------------------------------------------- {{{
+
+let g:NERDTreeIndicatorMapCustom = {
+    \ "Modified"  : "✹",
+    \ "Staged"    : "✚",
+    \ "Untracked" : "✭",
+    \ "Renamed"   : "➜",
+    \ "Unmerged"  : "═",
+    \ "Deleted"   : "✖",
+    \ "Dirty"     : "✗",
+    \ "Clean"     : "✔︎",
+    \ 'Ignored'   : '☒',
+    \ "Unknown"   : "?"
+    \ }
+
+" }}}

@@ -1,0 +1,103 @@
+[aws]
+symbol = "☁️ "
+format = "on [$symbol$profile(\\($region\\))]($style) "
+style = "bold orange"
+
+[character]
+format = "$symbol "
+success_symbol = "[❯](bold blue)"
+error_symbol = "[❯](fg:#e474ad)"
+
+[cmake]
+symbol = "🛠  "
+format = "via [$symbol($version )]($style)"
+version_format = "v${raw}"
+detect_files = ["CMakeLists.txt", "CMakeCache.txt"]
+style = "bold blue"
+
+
+[dart]
+symbol = " "
+format = "via [$symbol$version]($style) "
+
+[directory]
+style = "bold cyan"
+format = "in [$path]($style) $read_only"
+read_only = "🔒"
+truncation_length = 3
+truncation_symbol = "../"
+
+[docker_context]
+symbol = "🐳 "
+style = "bold blue"
+format = "via [$symbol$context]($style) "
+only_with_files = true
+
+[lua]
+symbol = "🌙 "
+style = "bold blue"
+detect_extensions = ["lua"]
+detect_folders = []
+
+[git_branch]
+symbol = " "
+format = "on [$symbol$branch]($style) "
+
+[git_commit]
+commit_hash_length = 7
+tag_symbol = "🏷 "
+tag_disabled = false
+format = "[\\($hash\\)]($style) [\\($tag\\)]($style)"
+
+[hostname]
+ssh_only = false
+style = "bold green"
+format =  "on [$hostname]($style) "
+
+[java]
+# symbol = " "
+symbol = "☕ "
+style = "red dimmed"
+format = "via [${symbol}${version}]($style) "
+
+[nodejs]
+symbol = " "
+style = "bold green"
+detect_files = ["package.json", ".node-version"]
+detect_extensions = []
+format = "via [$symbol$version]($style) "
+
+[package]
+symbol = "📦 "
+format = "via [$symbol$version]($style) "
+
+[php]
+symbol = "🐘 "
+format = "via [$symbol$version]($style) "
+
+[python]
+symbol = " "
+format = "via [${symbol}${pyenv_prefix}${version}( ($virtualenv))]($style) "
+python_binary = "python3"
+detect_extensions = ["py"]
+
+[ruby]
+symbol = "💎 "
+format = "via [$symbol$version]($style) "
+
+[status]
+style = "fg:#e474ad"
+format = '[\[$status\]]($style) '
+disabled = false
+
+[username]
+style_root = "bold red"
+style_user = "bold yellow"
+format = "[$user]($style) "
+show_always = true
+
+[custom.home]
+command = "echo Hi, welcome home !"  # shows output of command
+when = """ bash -c "test $HOME == $PWD" """
+style = "fg:#795bad"
+format = " [$output]($style) "
