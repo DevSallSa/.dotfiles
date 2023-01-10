@@ -5,7 +5,7 @@
 # Author       : DevSallSa
 # Email        : devsallsa@linuxmail.org
 # Date         : 2023-01-05
-# Version      : 1.2.0
+# Version      : 1.2.1
 ###################################################################
 
 cleanup () {
@@ -13,7 +13,7 @@ cleanup () {
     python tmux touchegg yarn yamllint zsh .clang-format aliases \
     shellcheckrc starship.toml)
 
-  stow -D config 2> /dev/null || exit
+  stow -D config 2> /dev/null
 
   mkdir -p /tmp/old-configs/config
   for config in "${old_configs[@]}"
