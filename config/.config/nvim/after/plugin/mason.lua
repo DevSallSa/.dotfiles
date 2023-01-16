@@ -4,7 +4,7 @@ if not require_mason_success then
 end
 
 local require_lspconfig_success, mason_lspconfig =
-  pcall(require, "mason-lspconfig")
+pcall(require, "mason-lspconfig")
 if not require_lspconfig_success then
   return
 end
@@ -15,6 +15,7 @@ if not require_null_ls_success then
 end
 
 local servers = {
+  "angularls",
   "cssls",
   "clangd",
   "emmet_ls",

@@ -250,6 +250,9 @@ nvim_lsp.sumneko_lua.setup({
   on_attach = on_attach,
 })
 
+-- Angular LSP client
+nvim_lsp.angularls.setup({})
+
 -- Config for html and css completion + snippets
 -- Enable (broadcasting) snippet capability for completion
 local html_css_capabilities = vim.lsp.protocol.make_client_capabilities()

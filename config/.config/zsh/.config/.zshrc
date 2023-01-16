@@ -183,3 +183,7 @@ eval "$(starship init zsh)"
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="/home/devsallsa/.local/share/sdkman"
 [[ -s "/home/devsallsa/.local/share/sdkman/bin/sdkman-init.sh" ]] && source "/home/devsallsa/.local/share/sdkman/bin/sdkman-init.sh"
+
+
+# Load Angular CLI autocompletion.
+source <(ng completion script)
