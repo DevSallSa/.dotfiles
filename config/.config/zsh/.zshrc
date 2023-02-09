@@ -1,0 +1,1 @@
+/home/devsallsa/.dotfiles/config/.config/zsh/.config/.zshrc
