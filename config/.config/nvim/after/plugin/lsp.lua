@@ -20,7 +20,7 @@ local server_settings = {
       -- formattingProvider = 'ormolu',
     },
   },
-  ["sumneko_lua"] = {
+  ["lua_ls"] = {
     Lua = {
       runtime = {
         -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
@@ -235,7 +235,7 @@ nvim_lsp.hls.setup({
 })
 
 -- Config for Lua LSP client
-nvim_lsp.sumneko_lua.setup({
+nvim_lsp.lua_ls.setup({
   cmd = { "lua-language-server" },
   filetypes = { "lua" },
   root_dir = util.root_pattern(
@@ -245,7 +245,7 @@ nvim_lsp.sumneko_lua.setup({
     "selene.toml",
     ".git"
   ),
-  settings = server_settings["sumneko_lua"],
+  settings = server_settings["lua_ls"],
   capabilities = capabilities,
   on_attach = on_attach,
 })

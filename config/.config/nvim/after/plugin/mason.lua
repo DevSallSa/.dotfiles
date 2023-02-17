@@ -4,7 +4,7 @@ if not require_mason_success then
 end
 
 local require_lspconfig_success, mason_lspconfig =
-pcall(require, "mason-lspconfig")
+  pcall(require, "mason-lspconfig")
 if not require_lspconfig_success then
   return
 end
@@ -18,11 +18,13 @@ local servers = {
   "angularls",
   "cssls",
   "clangd",
+  "dockerls",
+  "docker_compose_language_service",
   "emmet_ls",
   -- "hls",
   "html",
   "pyright",
-  "sumneko_lua",
+  "lua_ls",
   "tsserver",
   "vimls",
 }
@@ -31,6 +33,7 @@ local linter_and_formatter = {
   -- linter
   "cpplint",
   "eslint_d",
+  "hadolint",
   "jsonlint",
   "pylint",
   "yamllint",

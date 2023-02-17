@@ -16,6 +16,7 @@ null_ls.setup({
     }),
     diagnostics.pylint,
     diagnostics.cpplint,
+    diagnostics.hadolint,
     diagnostics.jsonlint,
     diagnostics.pylint.with({
       diagnostics_postprocess = function(diagnostic)
