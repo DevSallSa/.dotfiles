@@ -185,6 +185,8 @@ return packer.startup({
 
     -- Colorscheme
     use("haishanh/night-owl.vim")
+    use("diegoulloao/neofusion.nvim")
+    use({ "catppuccin/nvim", as = "catppuccin" })
 
     -- Vim be good game
     use("ThePrimeagen/vim-be-good")

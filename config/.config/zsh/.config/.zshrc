@@ -187,3 +187,9 @@ export SDKMAN_DIR="/home/devsallsa/.local/share/sdkman"
 
 # Load Angular CLI autocompletion.
 source <(ng completion script)
+
+
+# NVM DEFAULT SOURCING
+export NVM_DIR="$XDG_CONFIG_HOME/nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"

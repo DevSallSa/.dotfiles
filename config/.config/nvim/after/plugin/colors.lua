@@ -1,4 +1,6 @@
-vim.g.devsallsa_colorscheme = "night-owl"
+-- vim.g.devsallsa_colorscheme = "night-owl"
+vim.g.devsallsa_colorscheme = "neofusion"
+-- vim.g.devsallsa_colorscheme = "catppuccin-mocha"
 
 vim.opt.syntax = "enable"
 vim.opt.termguicolors = true

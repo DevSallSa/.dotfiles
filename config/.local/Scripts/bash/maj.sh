@@ -30,7 +30,7 @@ if check_root; then
   check_error "full-upgrade"
   prompt -i "Updating flatpak apps....."
   prompt -w "You should update them using your appcenter."
-  flatpak update
+  # flatpak update
   prompt -s "Update complete. Ready to go!"
 else
   cancel_operation "Only root user can run this program."
