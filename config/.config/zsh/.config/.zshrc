@@ -32,7 +32,7 @@ export PNPM_HOME="$XDG_DATA_HOME"/pnpm
 export SDKMAN_DIR="$XDG_DATA_HOME"/sdkman
 export CUSTOM_SCRIPTS_DIR="$HOME"/.local/Scripts
 # export PATH="$PATH":"$XDG_DATA_HOME"/cabal/bin:/opt/bin:"$HOME"/.local/bin:$(find $CUSTOM_SCRIPTS_DIR -type d | tr '\n' ':')
-export PATH="$PNPM_HOME":/opt/bin:"$HOME"/.local/bin:"$CUSTOM_SCRIPTS_DIR"/bin:"$PATH"
+export PATH="$PNPM_HOME":/opt/bin:"$HOME"/.local/bin:"$CUSTOM_SCRIPTS_DIR"/bin:"$WORKSPACES/Mobile applications/FlutterProjects/flutter/bin/":"$PATH"
 
 # Settings
 export TERM=xterm-256color # For lightline
